@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+My Website
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary mb-4" href="{% url 'tweet_create' %}" role="button" style="margin-left: 160px;;">Creat Tweet</a>
+
+<div class="conainer row gap-4" style="margin-left:160px;">
+  
+  {% for tweet in tweets %}
+  <div class="card" style="width: 18rem; border: 1px solid red;">
+    <div class="card-body">
+
+      {% comment %} <img :src="tweet.photo.url" class="card-img-top" alt="no image"><br> {% endcomment %}
+      <button type="button" class="btn btn-primary position-relative">
+        {{ tweet.user.username }}
+        <span class="position-absolute top-0 start-100 translate-middle p-2 
+                     border border-light rounded-circle 
+                     {% if tweet.is_recent %}bg-success{% else %}bg-danger{% endif %}">
+            <span class="visually-hidden">New alerts</span>
+        </span>
+    </button>
+      {% comment %} <h5 class="card-title " style="color:rgb(31, 150, 144) ;">{{tweet.user.username}}</h5> {% endcomment %}
+      <p class="card-text" >{{tweet.text}}</p>
+      <p class="card-text"><small class="text-body-secondary">{{tweet.created_at}}</small></p>
+      {% if tweet.user == user %}
+      <a class="btn btn-primary" href="{% url 'tweet_edit' tweet.id%}" role="button">Edit</a>
+      <a class="btn btn-danger" href="{% url 'tweet_delete' tweet.id%}" role="button">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+    
+  </div>
+  {% endblock %}
